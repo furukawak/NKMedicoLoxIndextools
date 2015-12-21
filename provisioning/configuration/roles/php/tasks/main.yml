@@ -1,0 +1,36 @@
+---
+- name: Install latestrpm
+  yum: name=https://mirror.webtatic.com/yum/el6/latest.rpm state=present
+
+- name: Install php56
+  yum: name={{ item }} state=present
+  with_items:
+   - php56w
+   - php56w-opcache
+   - php56w-pecl-apcu
+   - php56w-fpm
+   - php56w-devel
+   - php56w-common
+   - php56w-mysqlnd
+   - php56w-cli
+   - php56w-mcrypt
+   - php56w-pecl-imagick
+   - php56w-mbstring
+   - php56w-gd
+
+- name: Copy php.ini configuration
+  template: src=php.ini dest=/etc/php.ini
+  notify: restart php-fpm
+
+- name: Copy php-fpm.conf configuration
+  template: src=php-fpm.conf dest=/etc/php-fpm.conf
+  notify: restart php-fpm
+
+- name: Copy php-fpm configuration
+  template: src=www.conf dest=/etc/php-fpm.d/www.conf
+  notify: restart php-fpm
+
+
+- name: Start php-fpm Service
+  service: name=php-fpm state=started enabled=true
+

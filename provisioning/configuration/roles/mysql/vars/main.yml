@@ -1,0 +1,11 @@
+mysql_port: 3306
+
+mysql56_rpm_dl_base: http://dev.mysql.com/get/Downloads/MySQL-5.6
+
+# "shared" has to come after "shared-compat"
+mysql56_rpm_files:
+  - MySQL-client-5.6.20-1.el6.x86_64.rpm
+  - MySQL-devel-5.6.20-1.el6.x86_64.rpm
+  - MySQL-server-5.6.20-1.el6.x86_64.rpm
+  - MySQL-shared-compat-5.6.20-1.el6.x86_64.rpm
+  - MySQL-shared-5.6.20-1.el6.x86_64.rpm

@@ -1,0 +1,33 @@
+---
+# how to install mysql5.6
+# http://qiita.com/icche/items/938290c8fce954c58abf
+
+- name: Check mysql version
+  shell: yum list installed | grep -i mysql-server | grep 5.6
+  register: mysql56_present
+  ignore_errors: true
+  changed_when: false
+
+- name: Remove old mysql
+  shell: yum -y remove mysql*
+  when: mysql56_present|failed
+
+- name: Get rpm files
+  get_url: url={{ mysql56_rpm_dl_base }}/{{ item }} dest=/tmp/{{ item }}
+  with_items: mysql56_rpm_files
+
+- name: Install mysql5.6
+  shell: yum install -y /tmp/{{ item }}
+  with_items: mysql56_rpm_files
+  when: mysql56_present|failed
+
+- name: Install Mysql-python
+  yum: name=MySQL-python state=present
+
+- name: Create Mysql configuration file
+  template: src=my.cnf.j2 dest=/etc/my.cnf
+  notify:
+    - restart mysql
+
+- name: Start Mysql Service
+  service: name=mysql state=started enabled=true

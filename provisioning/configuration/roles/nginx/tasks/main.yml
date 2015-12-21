@@ -1,0 +1,13 @@
+---
+- name: add nginx.repo
+  copy: src=nginx.repo dest=/etc/yum.repos.d/nginx.repo
+
+- name: Install nginx
+  yum: name=nginx state=present
+
+- name: Copy nginx configuration
+  template: src=lox-system.conf dest=/etc/nginx/conf.d/lox-system.conf
+  notify: restart nginx
+
+- name: Start Nginx Service
+  service: name=nginx state=started enabled=true

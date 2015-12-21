@@ -1,0 +1,8 @@
+---
+- name: installing ...
+  sudo: yes
+  hosts: all
+  roles:
+    - nginx
+    - mysql
+    - php
