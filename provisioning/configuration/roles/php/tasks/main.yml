@@ -18,6 +18,14 @@
    - php56w-mbstring
    - php56w-gd
 
+- name: check dir /run for starting php-fpm
+  shell: "[ -e /run ]; echo $?"
+  register: run_exists
+
+- name: make dir /run for starting php-fpm
+  shell: mkdir /run
+  when: run_exists.stdout != '0'
+
 - name: Copy php.ini configuration
   template: src=php.ini dest=/etc/php.ini
   notify: restart php-fpm
