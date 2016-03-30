@@ -16,6 +16,7 @@
    - php56w-mcrypt
    - php56w-pecl-imagick
    - php56w-mbstring
+   - php56w-bcmath
    - php56w-gd
 
 - name: check dir /run for starting php-fpm
